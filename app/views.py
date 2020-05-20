@@ -2,6 +2,9 @@ from app import app
 from flask import render_template, request, redirect
 import pandas as pd
 import os
+import sys
+sys.path.append('app/models')
+from User import User
 from werkzeug.utils import secure_filename
 
 @app.route("/")
@@ -120,11 +123,11 @@ def add_personal_info():
 
     if request.method == "POST":
         req = request.form
-        name = req.get("name")
-        last_name = req.get("lastname")
-        email = req.get("email")
-        phone_number = req.get("phone_number")
-        age = req.get("age")
-
-        print(name, last_name, email, phone_number, age)
+        user = User(name = req.get("name"),
+            last_name = req.get("lastname"),
+            email = req.get("email"),
+            phone_number = req.get("phone_number"),
+            age = req.get("age"),
+            )
+        user.add()
     return render_template("public/add_personal_info.html")
