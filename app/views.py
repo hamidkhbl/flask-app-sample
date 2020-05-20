@@ -82,7 +82,7 @@ def upload_file():
                 return redirect(request.url)
 
             print(request.cookies)
-            f = request.files["file"]
+            f = request.files["csv"]
             if f.filename == "":
                 print("File must have a file name.")
                 return redirect(request.url)
