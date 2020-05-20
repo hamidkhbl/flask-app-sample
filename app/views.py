@@ -9,7 +9,6 @@ from werkzeug.utils import secure_filename
 
 @app.route("/")
 def index():
-    print('hamid')
     return render_template("public/index.html")
 
 @app.route("/about")
