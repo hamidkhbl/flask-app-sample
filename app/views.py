@@ -98,3 +98,19 @@ def upload_file():
             return redirect(request.url)
 
     return render_template("/public/upload-file.html")
+
+
+@app.route("/sign-up", methods = ["POST", "GET"])
+def sign_up():
+
+    if request.method == "POST":
+        req = request.form
+
+        username = req.get("username")
+        email = req.get("email")
+        password = req.get("password")
+        print(username, email, password)
+
+        return redirect(request.url)
+
+    return render_template("public/sign_up.html")
