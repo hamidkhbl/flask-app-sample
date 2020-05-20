@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 
 @app.route("/")
 def index():
+    print('hamid')
     return render_template("public/index.html")
 
 @app.route("/about")
@@ -56,15 +57,11 @@ def jinja():
         GitRemote = GitRemote, repeat = repeat,
         data = df.to_html(classes="table table-hover table-striped table-sm"))
 
-app.config["FILE_UPLOADS"] = "E:/Google Drive/git/flask-app-sample/data"
-app.config["ALLOWED_IMAGE_EXTENTIONS"] = ["CSV"]
-app.config["MAX_FILE_SIZE"] = 0.5 * 1024 * 1024
-
 def allowed_file(file_name):
     if not "." in file_name:
         return False
     ext = file_name.rsplit(".",1)[1]
-    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENTIONS"]:
+    if ext.upper() in app.config["ALLOWED_FILE_EXTENTIONS"]:
         return True
     else:
         return False
