@@ -114,3 +114,17 @@ def sign_up():
         return redirect(request.url)
 
     return render_template("public/sign_up.html")
+
+@app.route("/add-personal-info", methods = ["GET", "POST"])
+def add_personal_info():
+
+    if request.method == "POST":
+        req = request.form
+        name = req.get("name")
+        last_name = req.get("lastname")
+        email = req.get("email")
+        phone_number = req.get("phone_number")
+        age = req.get("age")
+
+        print(name, last_name, email, phone_number, age)
+    return render_template("public/add_personal_info.html")
