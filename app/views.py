@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, make_response, session, url_for
+from flask import render_template, request, redirect, make_response, session, url_for, flash
 import pandas as pd
 import os
 import sys
@@ -158,16 +158,19 @@ def login():
 
         if not username in users:
             print("username not found")
+            flash("Incorrect credentials!", "danger")
             return redirect(request.url)
         else:
             user = users[username]
 
         if not password in user["password"]:
             print("password incorrect")
+            flash("Incorrect credentials!", "danger")
             return redirect(request.url)
         else:
             session["USERNAME"] = user["username"]
             print("user added to session")
+            flash("Logged in!", "success")
             return redirect(url_for("profile"))
 
     return render_template("public/login.html")
