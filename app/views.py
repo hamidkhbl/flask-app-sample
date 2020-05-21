@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, make_response, session, url_for
 import pandas as pd
 import os
 import sys
@@ -127,3 +127,65 @@ def add_personal_info():
             )
         user.add()
     return render_template("public/add_personal_info.html")
+
+
+users = {
+    "hamid": {
+        "username":"hamid",
+        "email":"hamid@yahoo.com",
+        "password":"test",
+        "bio":"hamid's bio"
+
+    },
+    "maryam": {
+        "username":"maryam",
+        "email":",maryam@yahoo.com",
+        "password":"test",
+        "bio":"maryam's bio"
+
+    }
+}
+
+@app.route("/login", methods = ["GET", "POST"])
+def login():
+    print(request.method)
+
+    if request.method == "POST":
+
+        req = request.form
+        username = req.get("username")
+        password = req.get("password")
+
+        if not username in users:
+            print("username not found")
+            return redirect(request.url)
+        else:
+            user = users[username]
+
+        if not password in user["password"]:
+            print("password incorrect")
+            return redirect(request.url)
+        else:
+            session["USERNAME"] = user["username"]
+            print("user added to session")
+            return redirect(url_for("profile"))
+
+    return render_template("public/login.html")
+
+@app.route("/profile", methods = ["GET", "POST"])
+def profile():
+
+    if session.get("USERNAME", None) is not None:
+        username = session.get('USERNAME')
+        user = users[username]
+
+        return render_template("public/profile.html", user = user)
+    else:
+        print("Username not found")
+        return redirect(url_for("login"))
+
+
+@app.route("/sign-out")
+def sign_out():
+    session.pop("USERNAME", None)
+    return redirect(url_for("login"))
